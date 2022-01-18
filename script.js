@@ -20,7 +20,7 @@ function searchMeal(e) {
 		fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${term}`)
 		.then(res => res.json())
 		.then(data => {
-			console.log(data);
+			//console.log(data);
 			resultHeading.innerHTML = `<h2>Search results for '${term}':</h2>`;
 
 			if(data.meals === null) {
@@ -54,6 +54,20 @@ function getMealById(mealID) {
 	})
 }
 
+// Fetch random meal
+function getRandomMeal(params) {
+	// Clear meals and heading
+	mealsEl.innerHTML = '';
+	resultHeading.innerHTML = '';
+
+	fetch(`https://www.themealdb.com/api/json/v1/1/random.php`)
+	.then(res => res.json())
+	.then(data => {
+		const meal = data.meals[0];
+
+		addMealToDOM(meal);
+	})
+}
 
 //Add meal to DOM
 function addMealToDOM(meal) {
@@ -88,6 +102,7 @@ function addMealToDOM(meal) {
 
 //Event Listeners
 submit.addEventListener('submit', searchMeal);
+random.addEventListener('click', getRandomMeal);
 
 mealsEl.addEventListener('click', e => {
 	//path is supported in Chrome but not FF
